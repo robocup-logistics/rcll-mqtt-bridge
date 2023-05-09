@@ -1,0 +1,1 @@
+start with: `./gradlew run`
