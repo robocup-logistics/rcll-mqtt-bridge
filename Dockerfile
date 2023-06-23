@@ -4,4 +4,6 @@ WORKDIR /home/gradle/src
 RUN gradle build --no-daemon
 ENV BROKER tcp://localhost:1883
 ENV REFBOX localhost
-ENTRYPOINT ["sh", "-c", "java -jar /home/gradle/src/app/build/libs/app-all.jar -b $BROKER -r $REFBOX"]
+ENV TEAM GRIPS
+ENV KEY randomkey
+ENTRYPOINT ["sh", "-c", "java -jar /home/gradle/src/app/build/libs/app-all.jar -b $BROKER -r $REFBOX -t $TEAM -k $KEY"]

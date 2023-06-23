@@ -21,6 +21,8 @@ public class App {
         Options options = new Options();
         options.addRequiredOption("b", "broker",true, "Mqtt Broker host");
         options.addRequiredOption("r", "refbox",true, "Refbox host");
+        options.addRequiredOption("t", "team",true, "Name of the Team");
+        options.addRequiredOption("k", "key",true, "Secret key of the Team");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine parsed = parser.parse(options, args);
@@ -33,7 +35,7 @@ public class App {
                 new PeerConfig(4444, 4445),
                 new PeerConfig(4441, 4446),
                 new PeerConfig(4442, 4447));
-        TeamConfig teamConfig = new TeamConfig("randomkey", "GRIPS");
+        TeamConfig teamConfig = new TeamConfig(parsed.getOptionValue("k"), parsed.getOptionValue("t"));
         RefboxHandler privateHandler = new RefboxHandler();
         RefboxHandler publicHandler = new RefboxHandler();
         RefboxMqttHandler privateMqttHandler = new RefboxMqttHandler(privateHandler, "private", publisher);
