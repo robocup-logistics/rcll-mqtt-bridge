@@ -42,6 +42,7 @@ public class App {
         RefboxMqttHandler publicMqttHandler = new RefboxMqttHandler(publicHandler, "public", publisher);
         RefboxClient refboxClient = new RefboxClient(connectionConfig, teamConfig, privateHandler, publicHandler, 2000);
         refboxClient.startServer();
+        RefboxTeamHandler refboxTeamHandler = new RefboxTeamHandler(publisher, refboxClient, teamConfig.getName());
         while (publisher.isConnected()) {
             Thread.sleep(1000);
         }

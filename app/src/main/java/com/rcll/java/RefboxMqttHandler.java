@@ -14,9 +14,7 @@ import java.io.IOException;
 public class RefboxMqttHandler {
     private final RefboxHandler handler;
     private final String prefix;
-
     private final IMqttClient mqttClient;
-
 
     public RefboxMqttHandler(RefboxHandler handler, String prefix, IMqttClient mqttClient) {
         this.handler = handler;
