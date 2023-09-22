@@ -61,7 +61,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-java")
+            url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-mqtt-bridge")
             credentials {
                 username = project.findProperty("gprUser") != "" ? project.findProperty("gprUser") : System.getenv("USERNAME")
                 password = project. findProperty("gprToken") != "" ? project.findProperty("gprToken"): System.getenv("TOKEN")
@@ -91,7 +91,7 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com:grips-robocup/aruco_ros.git'
                     developerConnection = 'scm:git:ssh://github.com:grips-robocup/aruco_ros.git'
-                    url = 'https://github.com/robocup-logistics/rcll-java'
+                    url = 'https://github.com/robocup-logistics/rcll-mqtt-bridge'
                 }
             }
         }
