@@ -26,8 +26,8 @@ repositories {
     maven {
         url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-java")
         credentials {
-            username = "pkohout"
-            password = "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"
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
         }
     }
 }
