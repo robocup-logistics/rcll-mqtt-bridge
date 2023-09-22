@@ -36,14 +36,10 @@ public class RefboxTeamHandler implements MqttCallback {
         prepareBsInputTopic = teamName + "/prepare/BS/input";
         prepareBsOutputTopic = teamName + "/prepare/BS/output";
         prepareCs1Topic = teamName + "/prepare/CS1";
-        ;
         prepareCs2Topic = teamName + "/prepare/CS2";
-        ;
         prepareDsTopic = teamName + "/prepare/DS";
         prepareRs1Topic = teamName + "/prepare/RS1";
-        ;
         prepareRs2Topic = teamName + "/prepare/RS2";
-        ;
 
         this.callbacks.put(prepareBsInputTopic, this::prepareBsInput);
         this.callbacks.put(prepareBsOutputTopic, this::prepareBsOutput);

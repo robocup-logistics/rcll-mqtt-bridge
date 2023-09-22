@@ -11,6 +11,7 @@ plugins {
     id 'java'
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'application'
+    id "maven-publish"
     id "io.freefair.lombok" version "8.0.1"
 }
 
@@ -22,7 +23,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-java")
         credentials {
             username = "pkohout"
-            password = "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"
+            password = "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"
         }
     }
 }
@@ -49,4 +50,56 @@ application {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-java")
+            credentials {
+                username = project.findProperty("gprUser") != "" ? project.findProperty("gprUser") : System.getenv("USERNAME")
+                password = project. findProperty("gprToken") != "" ? project.findProperty("gprToken"): System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+            pom {
+                name = 'Java SDK'
+                description = 'Java SDK for the RoboCup Logistics League'
+                url = 'https://ll.robocup.org/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License 3'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.de.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'pkohout'
+                        name = 'Peter Kohout'
+                        email = 'peter.kohout@student.tugraz.at'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com:grips-robocup/aruco_ros.git'
+                    developerConnection = 'scm:git:ssh://github.com:grips-robocup/aruco_ros.git'
+                    url = 'https://github.com/robocup-logistics/rcll-java'
+                }
+            }
+        }
+    }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
