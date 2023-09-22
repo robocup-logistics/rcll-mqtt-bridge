@@ -67,9 +67,8 @@ public class RefboxTeamHandler implements MqttCallback {
     }
 
     private void prepareDs(String s) {
-        //todo remove gate as soon as java sdk is upgraded to 0.1.17
         try {
-            this.refboxClient.sendPrepareDS(0, Integer.parseInt(s));
+            this.refboxClient.sendPrepareDS(Integer.parseInt(s));
         } catch (Exception ex) {
             log.warn("Error on prepareDs!", ex);
         }

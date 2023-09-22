@@ -36,7 +36,7 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 
-    implementation group: 'io.github.robocup-logistics', name: 'java-sdk', version: '0.1.14.3'
+    implementation group: 'io.github.robocup-logistics', name: 'java-sdk', version: '0.1.18'
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
     implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.22.3'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
