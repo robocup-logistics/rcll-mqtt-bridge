@@ -51,32 +51,60 @@ public class RefboxTeamHandler implements MqttCallback {
     }
 
     private void prepareRs1(String s) {
-        this.refboxClient.sendPrepareRS(Machine.RS1, RingColor.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareRS(Machine.RS1, RingColor.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareRs1!", ex);
+        }
     }
 
     private void prepareRs2(String s) {
-        this.refboxClient.sendPrepareRS(Machine.RS2, RingColor.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareRS(Machine.RS2, RingColor.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareRs2!", ex);
+        }
     }
 
     private void prepareDs(String s) {
         //todo remove gate as soon as java sdk is upgraded to 0.1.17
-        this.refboxClient.sendPrepareDS(0, Integer.parseInt(s));
+        try {
+            this.refboxClient.sendPrepareDS(0, Integer.parseInt(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareDs!", ex);
+        }
     }
 
     private void prepareCs1(String s) {
-        this.refboxClient.sendPrepareCS(Machine.CS1, CapStationInstruction.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareCS(Machine.CS1, CapStationInstruction.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareCs1!", ex);
+        }
     }
 
     private void prepareCs2(String s) {
-        this.refboxClient.sendPrepareCS(Machine.CS2, CapStationInstruction.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareCS(Machine.CS2, CapStationInstruction.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareCs2!", ex);
+        }
     }
 
     private void prepareBsOutput(String s) {
-        this.refboxClient.sendPrepareBS(MachineSide.Output, Base.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareBS(MachineSide.Output, Base.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on prepareBsOutput!", ex);
+        }
     }
 
     private void prepareBsInput(String s) {
-        this.refboxClient.sendPrepareBS(MachineSide.Input, Base.valueOf(s));
+        try {
+            this.refboxClient.sendPrepareBS(MachineSide.Input, Base.valueOf(s));
+        } catch (Exception ex) {
+            log.warn("Error on preparingCs1!", ex);
+        }
     }
 
     public void start() throws MqttException {
