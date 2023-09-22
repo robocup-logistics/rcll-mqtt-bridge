@@ -43,6 +43,7 @@ public class App {
         RefboxClient refboxClient = new RefboxClient(connectionConfig, teamConfig, privateHandler, publicHandler, 2000);
         refboxClient.startServer();
         RefboxTeamHandler refboxTeamHandler = new RefboxTeamHandler(publisher, refboxClient, teamConfig.getName());
+        refboxTeamHandler.start();
         while (publisher.isConnected()) {
             Thread.sleep(1000);
         }

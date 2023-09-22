@@ -18,11 +18,8 @@ import java.util.function.Consumer;
 public class RefboxTeamHandler implements MqttCallback {
     private final IMqttClient mqttClient;
     private final RefboxClient refboxClient;
-
-    private final String teamName;
-
     private final Map<String, Consumer<String>> callbacks;
-    private final String  prepareBsInputTopic;
+    private final String prepareBsInputTopic;
     private final String prepareBsOutputTopic;
 
     private final String prepareCs1Topic;
@@ -34,16 +31,19 @@ public class RefboxTeamHandler implements MqttCallback {
     public RefboxTeamHandler(IMqttClient mqttClient, RefboxClient refboxClient, String teamName) {
         this.mqttClient = mqttClient;
         this.refboxClient = refboxClient;
-        this.teamName = teamName;
         this.mqttClient.setCallback(this);
         this.callbacks = new HashMap<>();
         prepareBsInputTopic = teamName + "/prepare/BS/input";
         prepareBsOutputTopic = teamName + "/prepare/BS/output";
-        prepareCs1Topic = teamName + "/prepare/CS1";;
-        prepareCs2Topic = teamName + "/prepare/CS2";;
+        prepareCs1Topic = teamName + "/prepare/CS1";
+        ;
+        prepareCs2Topic = teamName + "/prepare/CS2";
+        ;
         prepareDsTopic = teamName + "/prepare/DS";
-        prepareRs1Topic = teamName + "/prepare/RS1";;
-        prepareRs2Topic = teamName + "/prepare/RS2";;
+        prepareRs1Topic = teamName + "/prepare/RS1";
+        ;
+        prepareRs2Topic = teamName + "/prepare/RS2";
+        ;
 
         this.callbacks.put(prepareBsInputTopic, this::prepareBsInput);
         this.callbacks.put(prepareBsOutputTopic, this::prepareBsOutput);
@@ -84,7 +84,7 @@ public class RefboxTeamHandler implements MqttCallback {
     }
 
     public void start() throws MqttException {
-        this.mqttClient.subscribe(new String[]{prepareBsInputTopic, prepareBsOutputTopic});
+        this.mqttClient.subscribe(new String[]{prepareBsInputTopic, prepareBsOutputTopic, prepareCs1Topic, prepareCs2Topic, prepareDsTopic, prepareRs1Topic, prepareRs2Topic});
     }
 
     @Override
