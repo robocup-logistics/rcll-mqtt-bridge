@@ -3,32 +3,35 @@
  */
 package com.rcll.java;
 
-import com.rcll.protobuf_lib.RobotConnections;
 import com.rcll.refbox.*;
 import org.apache.commons.cli.*;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.UUID;
 
 public class App {
-
-
     public static void main(String[] args) throws MqttException, InterruptedException, ParseException {
 
         Options options = new Options();
-        options.addRequiredOption("b", "broker",true, "Mqtt Broker host");
-        options.addRequiredOption("r", "refbox",true, "Refbox host");
-        options.addRequiredOption("t", "team",true, "Name of the Team");
-        options.addRequiredOption("k", "key",true, "Secret key of the Team");
+        options.addRequiredOption("b", "broker", true, "Mqtt Broker host");
+        options.addRequiredOption("r", "refbox", true, "Refbox host");
+        options.addRequiredOption("t", "team", true, "Name of the Team");
+        options.addRequiredOption("k", "key", true, "Secret key of the Team");
 
         CommandLineParser parser = new DefaultParser();
-        CommandLine parsed = parser.parse(options, args);
+        CommandLine parsed;
+        try {
+            parsed = parser.parse(options, args);
+        } catch (Exception e) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("java -jar mqtt-bridge-0.1-all.jar", options);
+            return;
+        }
 
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient publisher = new MqttClient(parsed.getOptionValue("b"),publisherId);
+        IMqttClient publisher = new MqttClient(parsed.getOptionValue("b"), publisherId);
         publisher.connect();
         RefboxConnectionConfig connectionConfig = new RefboxConnectionConfig(
                 parsed.getOptionValue("r"),
