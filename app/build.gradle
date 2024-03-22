@@ -17,7 +17,7 @@ plugins {
 
 group = 'io.github.robocup-logistics'
 archivesBaseName = "mqtt-bridge"
-version = '0.1'
+version = '0.2'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -41,6 +41,9 @@ dependencies {
     implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.22.3'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
     implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
     testCompileOnly 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
