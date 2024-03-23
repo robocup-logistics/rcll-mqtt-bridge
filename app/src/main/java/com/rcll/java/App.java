@@ -4,6 +4,7 @@
 package com.rcll.java;
 
 import com.rcll.refbox.*;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.cli.*;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -11,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.UUID;
 
+@CommonsLog
 public class App {
     public static void main(String[] args) throws MqttException, InterruptedException, ParseException {
 
@@ -31,7 +33,11 @@ public class App {
         }
 
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient publisher = new MqttClient(parsed.getOptionValue("b"), publisherId);
+        String brokerUrl = parsed.getOptionValue("b");
+        if (!brokerUrl.startsWith("tcp://") && !brokerUrl.contains("://")) {
+            log.warn("did you forget to add the protocol prefix i.e \"tcp://\" to the broker url?");
+        }
+        IMqttClient publisher = new MqttClient(brokerUrl, publisherId);
         publisher.connect();
         RefboxConnectionConfig connectionConfig = new RefboxConnectionConfig(
                 parsed.getOptionValue("r"),
