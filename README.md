@@ -28,6 +28,20 @@ Production Phase:
 
 ![production_phase](https://github.com/robocup-logistics/rcll-mqtt-bridge/assets/5959988/fe0d6584-21e9-4c36-ab40-7bf4ee905494)
 
+#### Robot Beacon Signals
+
+The bridge supports publishing Robot Beacon signals for a team.
+Topics: `<TEAM>/beacon/R1` `<TEAM>/beacon/R2` `<TEAM>/beacon/R3`
+Payload:
+`{
+  "name": <ROBOT_NAME>,
+  "x": <X_COORDINATE>,
+  "y": <Y_COORDINATE>,
+  "yaw": <YAW>
+}`
+
+![robot_beacon_signal](https://github.com/robocup-logistics/rcll-mqtt-bridge/assets/5959988/10fdc2e1-a0c3-4ac9-ad89-87af63f88690)
+
 
 #### Prepare Machines
 The bridge is also listening to the following topics:
