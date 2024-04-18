@@ -7,8 +7,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 @CommonsLog
@@ -31,6 +30,8 @@ public class RefboxTeamHandler implements MqttCallback {
     private final String beaconRobot2Topic;
     private final String beaconRobot3Topic;
 
+    private final String reportMachineTopic;
+
     public RefboxTeamHandler(IMqttClient mqttClient, RefboxClient refboxClient, String teamName) {
         this.mqttClient = mqttClient;
         this.refboxClient = refboxClient;
@@ -47,6 +48,7 @@ public class RefboxTeamHandler implements MqttCallback {
         beaconRobot1Topic = teamName + "/beacon/R1";
         beaconRobot2Topic = teamName + "/beacon/R2";
         beaconRobot3Topic = teamName + "/beacon/R3";
+        reportMachineTopic = teamName + "/report";
 
         this.callbacks.put(prepareBsInputTopic, this::prepareBsInput);
         this.callbacks.put(prepareBsOutputTopic, this::prepareBsOutput);
@@ -58,6 +60,7 @@ public class RefboxTeamHandler implements MqttCallback {
         this.callbacks.put(beaconRobot1Topic, (s) -> this.sendRobotBeaconSignal(1, s));
         this.callbacks.put(beaconRobot2Topic, (s) -> this.sendRobotBeaconSignal(2, s));
         this.callbacks.put(beaconRobot3Topic, (s) -> this.sendRobotBeaconSignal(3, s));
+        this.callbacks.put(reportMachineTopic, this::reportMachine);
     }
 
     private void prepareRs1(String s) {
@@ -123,6 +126,34 @@ public class RefboxTeamHandler implements MqttCallback {
         } catch (Exception ex) {
             log.warn("Error on preparingCs1!", ex);
         }
+    }
+
+    private void reportMachine(String dataStr) {
+        try {
+            ReportMachineData data = objectMapper.readValue(dataStr, ReportMachineData.class);
+            this.refboxClient.sendReportMachine(new MachineName(data.machine), this.coordinateToZone(data.x, data.y),  this.discreticiseYaw(data.yaw));
+        } catch (Exception ex) {
+            log.warn("Error on sending Report signal for Machine: [" + dataStr + "]! ", ex);
+        }
+    }
+
+    private int discreticiseYaw(float yaw) {
+        if (yaw > 10) {
+            log.warn("discreticiseYaw excpets value in RADIANS!");
+        }
+        Integer[] arr = {0, 45, 90, 135, 180, 225, 270, 315, 360};
+        Vector<Integer> steps = new Vector<>(Arrays.asList(arr));
+        int angle = (int)Math.toDegrees(yaw);
+        Collections.sort(steps, Comparator.comparing(p -> Math.abs(p - angle)));
+        return steps.get(0) % 360;
+    }
+
+    private ZoneName coordinateToZone(float x, float y) {
+        Integer zoneX = (int)Math.floor(x) + 1;
+        Integer zoneY = (int)Math.floor(y) + 1;
+
+
+        return new ZoneName("M_Z" + zoneX + zoneY);
     }
 
     public void start() throws MqttException {
