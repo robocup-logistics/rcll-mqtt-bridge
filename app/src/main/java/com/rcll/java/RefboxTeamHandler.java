@@ -138,12 +138,9 @@ public class RefboxTeamHandler implements MqttCallback {
     }
 
     private int discreticiseYaw(float yaw) {
-        if (yaw > 10) {
-            log.warn("discreticiseYaw excpets value in RADIANS!");
-        }
         Integer[] arr = {0, 45, 90, 135, 180, 225, 270, 315, 360};
         Vector<Integer> steps = new Vector<>(Arrays.asList(arr));
-        int angle = (int)Math.toDegrees(yaw);
+        int angle = (int)(yaw);
         Collections.sort(steps, Comparator.comparing(p -> Math.abs(p - angle)));
         return steps.get(0) % 360;
     }
