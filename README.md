@@ -90,8 +90,19 @@ Payloads:
 
 ![prepare_DS](https://github.com/robocup-logistics/rcll-mqtt-bridge/assets/5959988/78f53e2c-7ff7-4c9a-80a5-4f140290e017)
 
+#### Report machine as explored
+Topic: `<TEAM>/report`
+Payload:
+`{
+  "machine": <FULL_MACHINE_NAME>,
+  "x": <X_COORDINATE>,
+  "y": <Y_COORDINATE>,
+  "yaw": <YAW>
+}`
+![correct_report](https://github.com/robocup-logistics/rcll-mqtt-bridge/assets/5959988/ac4db093-ea2a-4465-95d1-a8166e627808)
+![wrong_report](https://github.com/robocup-logistics/rcll-mqtt-bridge/assets/5959988/ee111bd6-25fd-4b51-9adb-bf04573d11d8)
+
+
 
 ### Missing Features
-
-- Publishing Robot Beacon Signals
-- Keep track of game state. Like once a Cap Station was prepared remember that this was done, then we could publish a more strong game state which does not need to be kept in the teams planning implementation but can be handled here.
+tion was prepared remember that this was done, then we could publish a more strong game state which does not need to be kept in the teams planning implementation but can be handled here.
