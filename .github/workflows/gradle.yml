@@ -29,6 +29,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Build with Gradle
+      env:
+        USERNAME: pkohout
+        GHP_JAVA_SDK_TOKEN: ${{ secrets.GHP_JAVA_SDK_TOKEN }}
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
