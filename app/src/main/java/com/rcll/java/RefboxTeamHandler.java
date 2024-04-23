@@ -146,11 +146,14 @@ public class RefboxTeamHandler implements MqttCallback {
     }
 
     private ZoneName coordinateToZone(float x, float y) {
-        Integer zoneX = (int)Math.floor(x) + 1;
+        Integer zoneX = (int)Math.floor(Math.abs(x) + 1);
         Integer zoneY = (int)Math.floor(y) + 1;
 
-
-        return new ZoneName("M_Z" + zoneX + zoneY);
+        if (x < 0) {
+            return new ZoneName("M_Z" + zoneX + zoneY);
+        } else {
+            return new ZoneName("C_Z" + zoneX + zoneY);
+        }
     }
 
     public void start() throws MqttException {
