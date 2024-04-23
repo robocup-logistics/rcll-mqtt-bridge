@@ -8,7 +8,7 @@ env:
 jobs:
 
   build:
-
+    environment: publishing
     runs-on: ubuntu-latest
 
     steps:

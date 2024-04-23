@@ -35,6 +35,8 @@ jobs:
       with:
         arguments: publishAllPublicationsToGitHubPackagesRepository
       env:
+        JAVA_SDK_USERNAME: ${{ env.JAVA_SDK_USERNAME }}
+        GHP_JAVA_SDK_TOKEN: ${{ secrets.GHP_JAVA_SDK_TOKEN }}
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SIGNINGKEYID: ${{ secrets.SIGNINGKEYID }}

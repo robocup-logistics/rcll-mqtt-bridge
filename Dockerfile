@@ -1,4 +1,8 @@
+ARG JAVA_SDK_USERNAME
+ARG GHP_JAVA_SDK_TOKEN
 FROM gradle:7.6-jdk11-alpine AS build
+ENV GHP_JAVA_SDK_TOKEN $GHP_JAVA_SDK_TOKEN
+ENV JAVA_SDK_USERNAME $JAVA_SDK_USERNAME
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon

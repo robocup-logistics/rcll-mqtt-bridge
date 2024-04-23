@@ -26,8 +26,8 @@ repositories {
     maven {
         url = uri("https://maven.pkg.github.com/robocup-logistics/rcll-java")
         credentials {
-            username = System.getenv("USERNAME")
-            password = System.getenv("TOKEN")
+            username = project.findProperty("gprUser") != "" ? project.findProperty("gprUser") : System.getenv("JAVA_SDK_USERNAME")
+            password = project. findProperty("gprToken") != "" ? project.findProperty("gprToken"): System.getenv("GHP_JAVA_SDK_TOKEN")
         }
     }
 }

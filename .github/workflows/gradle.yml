@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-
+    environment: publishing
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,9 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Build with Gradle
+      env:
+        JAVA_SDK_USERNAME: ${{ env.USERNAME }}
+        GHP_JAVA_SDK_TOKEN: ${{ secrets.GHP_JAVA_SDK_TOKEN }}
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
