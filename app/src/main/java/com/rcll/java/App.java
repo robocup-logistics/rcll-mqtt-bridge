@@ -28,7 +28,7 @@ public class App {
             parsed = parser.parse(options, args);
         } catch (Exception e) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("java -jar mqtt-bridge-0.1-all.jar", options);
+            formatter.printHelp("java -jar mqtt-bridge-0.5-all.jar", options);
             return;
         }
 
@@ -38,12 +38,18 @@ public class App {
             log.warn("did you forget to add the protocol prefix i.e \"tcp://\" to the broker url?");
         }
         IMqttClient publisher = new MqttClient(brokerUrl, publisherId);
-        publisher.connect();
+        try {
+            publisher.connect();
+        } catch(MqttException me) {
+            log.error("Error on connecting to mqtt broker[" + brokerUrl + "] - is it Running? Msg: " + me.getMessage(), me.getCause());
+            System.exit(1);
+        }
         RefboxConnectionConfig connectionConfig = new RefboxConnectionConfig(
                 parsed.getOptionValue("r"),
                 new PeerConfig(4444, 4445),
                 new PeerConfig(4441, 4446),
                 new PeerConfig(4442, 4447));
+        log.info("HERE");
         TeamConfig teamConfig = new TeamConfig(parsed.getOptionValue("k"), parsed.getOptionValue("t"));
         RefboxHandler privateHandler = new RefboxHandler();
         RefboxHandler publicHandler = new RefboxHandler();
