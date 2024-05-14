@@ -49,7 +49,6 @@ public class App {
                 new PeerConfig(4444, 4445),
                 new PeerConfig(4441, 4446),
                 new PeerConfig(4442, 4447));
-        log.info("HERE");
         TeamConfig teamConfig = new TeamConfig(parsed.getOptionValue("k"), parsed.getOptionValue("t"));
         RefboxHandler privateHandler = new RefboxHandler();
         RefboxHandler publicHandler = new RefboxHandler();
