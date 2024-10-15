@@ -40,7 +40,7 @@ public class App {
         IMqttClient publisher = new MqttClient(brokerUrl, publisherId);
         try {
             publisher.connect();
-        } catch(MqttException me) {
+        } catch (MqttException me) {
             log.error("Error on connecting to mqtt broker[" + brokerUrl + "] - is it Running? Msg: " + me.getMessage(), me.getCause());
             System.exit(1);
         }
@@ -52,12 +52,21 @@ public class App {
         TeamConfig teamConfig = new TeamConfig(parsed.getOptionValue("k"), parsed.getOptionValue("t"));
         RefboxHandler privateHandler = new RefboxHandler();
         RefboxHandler publicHandler = new RefboxHandler();
-        RefboxMqttHandler privateMqttHandler = new RefboxMqttHandler(privateHandler, "private", publisher);
-        RefboxMqttHandler publicMqttHandler = new RefboxMqttHandler(publicHandler, "public", publisher);
         RefboxClient refboxClient = new RefboxClient(connectionConfig, teamConfig, privateHandler, publicHandler, 2000);
         refboxClient.startServer();
         RefboxTeamHandler refboxTeamHandler = new RefboxTeamHandler(publisher, refboxClient, teamConfig.getName());
         refboxTeamHandler.start();
+
+        while (refboxClient.getTeamColor().isEmpty()) {
+            log.info("Waiting for team color...");
+            Thread.sleep(1000);
+        }
+
+        RefboxMqttHandler privateMqttHandler = new RefboxMqttHandler(privateHandler, "private", publisher,
+                refboxClient.getTeamColor().get(), teamConfig.getName());
+        RefboxMqttHandler publicMqttHandler = new RefboxMqttHandler(publicHandler, "public", publisher,
+                refboxClient.getTeamColor().get(), teamConfig.getName());
+
         while (publisher.isConnected()) {
             Thread.sleep(1000);
         }

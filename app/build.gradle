@@ -17,7 +17,7 @@ plugins {
 
 group = 'io.github.robocup-logistics'
 archivesBaseName = "mqtt-bridge"
-version = '0.5'
+version = '0.6'
 
 repositories {
     // Use Maven Central for resolving dependencies.

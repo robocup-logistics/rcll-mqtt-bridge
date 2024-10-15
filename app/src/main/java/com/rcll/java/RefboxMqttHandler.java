@@ -2,6 +2,7 @@ package com.rcll.java;
 
 import com.google.protobuf.MessageOrBuilder;
 import com.google.protobuf.util.JsonFormat;
+import com.rcll.domain.TeamColor;
 import com.rcll.refbox.RefboxHandler;
 import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
@@ -9,17 +10,23 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.robocup_logistics.llsf_msgs.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 
 public class RefboxMqttHandler {
     private final RefboxHandler handler;
     private final String prefix;
     private final IMqttClient mqttClient;
+    private final TeamColor teamColor;
+    private final String teamName;
 
-    public RefboxMqttHandler(RefboxHandler handler, String prefix, IMqttClient mqttClient) {
+    public RefboxMqttHandler(RefboxHandler handler, String prefix, IMqttClient mqttClient, TeamColor teamColor,
+                             String teamName) {
         this.handler = handler;
         this.prefix = prefix;
         this.mqttClient = mqttClient;
+        this.teamColor = teamColor;
+        this.teamName = teamName;
         this.handler.setGameStateCallback(this::handleGameState);
         this.handler.setMachineInfoCallback(this::handleMchineInfo);
         this.handler.setOrderInfoCallback(this::handleOrderInfo);
@@ -65,6 +72,13 @@ public class RefboxMqttHandler {
     @SneakyThrows
 
     private void handleBeaconSignal(BeaconSignalProtos.BeaconSignal beaconSignal) {
+        if (!beaconSignal.hasTeamColor() && !beaconSignal.hasTeamName()) {
+            if (teamColor.equals(TeamColor.CYAN)) {
+                beaconSignal = beaconSignal.toBuilder().setTeamColor(TeamProtos.Team.CYAN).setTeamName(teamName).build();
+            } else {
+                beaconSignal = beaconSignal.toBuilder().setTeamColor(TeamProtos.Team.MAGENTA).setTeamName(teamName).build();
+            }
+        }
         this.mqttClient.publish(this.prefix + "/beacon_signal", new MqttMessage(toJson(beaconSignal).getBytes()));
     }
 
