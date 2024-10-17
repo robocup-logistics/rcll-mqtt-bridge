@@ -10,4 +10,4 @@ ENV BROKER tcp://localhost:1883
 ENV REFBOX localhost
 ENV TEAM GRIPS
 ENV KEY randomkey
-ENTRYPOINT ["sh", "-c", "java -jar /home/gradle/src/app/build/libs/mqtt-bridge-0.6-all.jar -b $BROKER -r $REFBOX -t $TEAM -k $KEY"]
+ENTRYPOINT ["sh", "-c", "java -jar /home/gradle/src/app/build/libs/mqtt-bridge-0.7-all.jar -b $BROKER -r $REFBOX -t $TEAM -k $KEY"]

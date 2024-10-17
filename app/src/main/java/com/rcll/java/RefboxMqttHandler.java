@@ -95,7 +95,7 @@ public class RefboxMqttHandler {
 
     @SneakyThrows
     private void handleMchineInfo(MachineInfoProtos.MachineInfo machineInfo) {
-        this.mqttClient.publish(this.prefix + "/machine_info", new MqttMessage(toJson(machineInfo).getBytes()));
+        this.mqttClient.publish(this.prefix + "/machine_info", toJson(machineInfo).getBytes(), 1, true);
     }
 
     @SneakyThrows
