@@ -31,6 +31,7 @@ public class RefboxTeamHandler implements MqttCallback {
     private final String beaconRobot3Topic;
 
     private final String reportMachineTopic;
+    private final String resetMachineTopic;
 
     public RefboxTeamHandler(IMqttClient mqttClient, RefboxClient refboxClient, String teamName) {
         this.mqttClient = mqttClient;
@@ -49,6 +50,7 @@ public class RefboxTeamHandler implements MqttCallback {
         beaconRobot2Topic = teamName + "/beacon/R2";
         beaconRobot3Topic = teamName + "/beacon/R3";
         reportMachineTopic = teamName + "/report";
+        resetMachineTopic = teamName + "/reset";
 
         this.callbacks.put(prepareBsInputTopic, this::prepareBsInput);
         this.callbacks.put(prepareBsOutputTopic, this::prepareBsOutput);
@@ -61,6 +63,7 @@ public class RefboxTeamHandler implements MqttCallback {
         this.callbacks.put(beaconRobot2Topic, (s) -> this.sendRobotBeaconSignal(2, s));
         this.callbacks.put(beaconRobot3Topic, (s) -> this.sendRobotBeaconSignal(3, s));
         this.callbacks.put(reportMachineTopic, this::reportMachine);
+        this.callbacks.put(resetMachineTopic, this::resetMachine);
     }
 
     private void prepareRs1(String s) {
@@ -134,6 +137,14 @@ public class RefboxTeamHandler implements MqttCallback {
             this.refboxClient.sendReportMachine(new MachineName(data.machine), this.coordinateToZone(data.x, data.y),  this.discreticiseYaw(data.yaw));
         } catch (Exception ex) {
             log.warn("Error on sending Report signal for Machine: [" + dataStr + "]! ", ex);
+        }
+    }
+
+    private void resetMachine(String machine) {
+        try {
+            this.refboxClient.sendResetMachine(Machine.valueOf(machine));
+        } catch (Exception ex) {
+            log.warn("Error on sending Reset for Machine: [" + dataStr + "]! ", ex);
         }
     }
 
