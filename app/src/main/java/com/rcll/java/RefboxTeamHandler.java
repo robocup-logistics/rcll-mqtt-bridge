@@ -171,7 +171,8 @@ public class RefboxTeamHandler implements MqttCallback {
         this.mqttClient.subscribe(new String[]{
                 prepareBsInputTopic, prepareBsOutputTopic, prepareCs1Topic,
                 prepareCs2Topic, prepareDsTopic, prepareRs1Topic, prepareRs2Topic,
-                beaconRobot1Topic, beaconRobot2Topic, beaconRobot3Topic, reportMachineTopic});
+                beaconRobot1Topic, beaconRobot2Topic, beaconRobot3Topic, reportMachineTopic,
+                resetMachineTopic});
     }
 
     @Override
