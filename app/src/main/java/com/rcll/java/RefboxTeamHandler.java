@@ -144,7 +144,7 @@ public class RefboxTeamHandler implements MqttCallback {
         try {
             this.refboxClient.sendResetMachine(Machine.valueOf(machine));
         } catch (Exception ex) {
-            log.warn("Error on sending Reset for Machine: [" + dataStr + "]! ", ex);
+            log.warn("Error on sending Reset for Machine: [" + machine + "]! ", ex);
         }
     }
 
